@@ -7,6 +7,7 @@ def welcome():
 
 def collect_ansewrs(players):
     """Perform the players information and assert their number guess."""
+    """Get it?."""
     players_dictionary = {}
     total = 0
     for player in range(players):
