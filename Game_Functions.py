@@ -1,3 +1,6 @@
+# Definig game functions
+
+
 def welcome():
     return "You are welcome to the divination game"
 
