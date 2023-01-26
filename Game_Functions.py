@@ -7,7 +7,6 @@ def events(settings, interface):
     for event in pygame.event.get():
         pygame.key.set_repeat(300, 100)
         if event.type == pygame.QUIT:
-            print(winner(1, interface))
             pygame.quit()
             sys.exit()
 
@@ -28,15 +27,25 @@ def events(settings, interface):
                 interface.buttom2_color = settings.color_passive
                 interface.buttom2_active = False
 
-        if event.type == pygame.KEYDOWN and (interface.buttom1_active or interface.buttom2_active):
+        if event.type == pygame.KEYDOWN and (
+            interface.buttom1_active or interface.buttom2_active
+        ):
             if event.key == pygame.K_BACKSPACE:
                 settings.user_text = settings.user_text[:-1]
-            elif len(settings.user_text) <= 10 and event.key != pygame.K_ESCAPE:
+            elif (
+                len(settings.user_text) <= 10
+                and event.key != pygame.K_ESCAPE
+                and event.key != pygame.K_RETURN
+            ):
                 settings.user_text += event.unicode
+
 
 def drawing(screen, interface):
     pygame.draw.rect(screen, interface.buttom1_color, interface.buttom1_rect)
     pygame.draw.rect(screen, interface.buttom2_color, interface.buttom2_rect)
+    pygame.draw.rect(
+        screen, interface.mensagem_text_color, interface.mensagem_text_rect
+    )
 
 
 def blit(base_font, settings, screen, interface):
