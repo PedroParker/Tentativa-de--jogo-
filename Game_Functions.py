@@ -7,7 +7,6 @@ def events(settings, interface):
     for event in pygame.event.get():
         pygame.key.set_repeat(300, 100)
         if event.type == pygame.QUIT:
-            print(winner(1, interface))
             pygame.quit()
             sys.exit()
 
