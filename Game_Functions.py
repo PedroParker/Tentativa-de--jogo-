@@ -3,48 +3,58 @@ import sys
 
 
 def events(settings, interface):
+
     for event in pygame.event.get():
+        pygame.key.set_repeat(300, 100)
         if event.type == pygame.QUIT:
+            print(winner(1, interface))
             pygame.quit()
             sys.exit()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if interface.rect.collidepoint(event.pos):
-                settings.active = True
+            if interface.buttom1_rect.collidepoint(event.pos):
+                interface.buttom1_color = settings.color_active
+                interface.buttom1_active = True
+                settings.user_text = interface.buttom1_text
             else:
-                settings.active = False
-        if event.type == pygame.KEYDOWN:
+                interface.buttom1_color = settings.color_passive
+                interface.buttom1_active = False
+
+            if interface.buttom2_rect.collidepoint(event.pos):
+                interface.buttom2_color = settings.color_active
+                interface.buttom2_active = True
+                settings.user_text = interface.buttom2_text
+            else:
+                interface.buttom2_color = settings.color_passive
+                interface.buttom2_active = False
+
+        if event.type == pygame.KEYDOWN and (interface.buttom1_active or interface.buttom2_active):
             if event.key == pygame.K_BACKSPACE:
                 settings.user_text = settings.user_text[:-1]
-            else:
+            elif len(settings.user_text) <= 10 and event.key != pygame.K_ESCAPE:
                 settings.user_text += event.unicode
-    if settings.active:
-        settings.color = settings.color_active
-    else:
-        settings.color = settings.color_passive
 
-
-def drawing(settings, screen, interface):
-    pygame.draw.rect(screen, settings.color, interface.rect)
+def drawing(screen, interface):
+    pygame.draw.rect(screen, interface.buttom1_color, interface.buttom1_rect)
+    pygame.draw.rect(screen, interface.buttom2_color, interface.buttom2_rect)
 
 
 def blit(base_font, settings, screen, interface):
-    text_suface = base_font.render(settings.user_text, True, (255, 255, 255))
-    screen.blit(text_suface, (interface.rect.x + 5, interface.rect.y + 5))
+    interface.update_text(settings)
+    interface.blit(base_font, screen)
 
 
 def welcome():
     return "You are welcome to the divination game"
 
 
-def collect_ansewrs(players):
-    """Perform the players information and assert their number guess."""
-    """Get it?."""
+def collect_ansewrs(players, interface):
+    """Sync the players information and assert their number guess."""
     players_dictionary = {}
     total = 0
     for player in range(players):
-        player_name = input("Coloque seu nome: ")
-        player_ansewrs = int(input("Esconlha um número entre 1 e 100: "))
+        player_name = interface.buttom1_text
+        player_ansewrs = int(interface.buttom2_text)
         players_dictionary[player_name] = player_ansewrs
         total += player_ansewrs
     total = total / players * 0.8
@@ -52,9 +62,10 @@ def collect_ansewrs(players):
     return ansewr_list
 
 
-def winner(ansewr_list):
+def winner(players, interface):
     """Compile all the running functions for now and return the winner."""
     welcome()
+    ansewr_list = collect_ansewrs(players, interface)
     total = ansewr_list[1]
     error = 100
     winner_player = ""
