@@ -15,6 +15,10 @@ class Interface(pygame.sprite.Sprite):
         self.buttom2_rect = pygame.Rect(200, 500, 140, 32)
         self.buttom2_text = ""
 
+        self.mensagem_text_rect = pygame.Rect(200, 50, 140, 32)
+        self.mensagem_text = "Welcome"
+        self.mensagem_text_color = (0, 0, 0)
+
     def update_text(self, settings):
         if self.buttom1_active:
             self.buttom1_text = settings.user_text
@@ -35,4 +39,11 @@ class Interface(pygame.sprite.Sprite):
         screen.blit(
             buttom2_text_surface,
             (self.buttom2_rect.x + 5, self.buttom2_rect.y + 5),
+        )
+        mensagem_text_surface = base_font.render(
+            self.mensagem_text, True, (255, 255, 255)
+        )
+        screen.blit(
+            mensagem_text_surface,
+            (self.mensagem_text_rect.x + 5, self.mensagem_text_rect.y + 5),
         )
