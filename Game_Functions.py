@@ -12,8 +12,9 @@ def collect_ansewrs(players):
         player_ansewrs = int(input("Esconlha um número entre 1 e 100: "))
         players_dictionary[player_name] = player_ansewrs
         total += player_ansewrs
-        total = total / players * 0.8
-        ansewr_list = [players_dictionary, total]
+    print(players)
+    total = total / players * 0.8
+    ansewr_list = [players_dictionary, total]
     return ansewr_list
 
 
