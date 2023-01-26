@@ -6,7 +6,7 @@ def welcome():
 
 
 def collect_ansewrs(players):
-    """Perform the players information and assert their number guess"""
+    """Perform the players information and assert their number guess."""
     players_dictionary = {}
     total = 0
     for player in range(players):
@@ -20,7 +20,7 @@ def collect_ansewrs(players):
 
 
 def winner(ansewr_list):
-    """Compile all the running functions for now and return the winner"""
+    """Compile all the running functions for now and return the winner."""
     welcome()
     total = ansewr_list[1]
     error = 100
