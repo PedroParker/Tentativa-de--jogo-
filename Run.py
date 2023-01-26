@@ -1,19 +1,19 @@
 import pygame
-from pygame.locals import *
 from sys import exit
+from Settings import Settings
+import Game_Functions as game_f
+from Interface import Interface
 
-pygame.init()  # Inicia todas as funções do pygame
-
-largura = 640
-altura = 480
-
-pygame.display.set_mode((largura, altura))  # Cria a nossa janela
-pygame.display.set_caption("Jogo")  # Renomeia o titulo que fica na parte de cima da tela
-
+settings = Settings()
+interface = Interface()
+pygame.init()
+screen = pygame.display.set_mode((settings.width, settings.height))
+base_font = pygame.font.Font(None, 32)
+pygame.display.set_caption("Jogo")
 while True:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()  # Responsavel para fechar a janela
-            exit()
-
-    pygame.display.update()  # Responsavel por ficar atualizando a janela
+    game_f.events(settings, interface)
+    screen.fill((255, 255, 255))
+    game_f.drawing(settings, screen, interface)
+    game_f.blit(base_font, settings, screen, interface)
+    pygame.display.flip()
+    settings.clock.tick(60)
