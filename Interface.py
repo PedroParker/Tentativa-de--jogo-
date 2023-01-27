@@ -4,7 +4,7 @@ import pygame
 class Interface(pygame.sprite.Sprite):
     def __init__(self, settings):
         super().__init__()
-        self.image = pygame.image.load("Images/box.png")
+        self.image = pygame.image.load("Resources/box.png")
         self.rect = self.image.get_rect()
         self.button1_active = False
         self.button1_color = settings.color_passive

@@ -15,5 +15,5 @@ class Settings:
         self.button_height = 40
         self.clock = pygame.time.Clock()
         self.font_color = (0, 0, 0)
-        self.font = "/usr/share/fonts/truetype/CascadiaCode/ttf/CascadiaCodeItalic.ttf"
+        self.font = "Resources/CascadiaCodeItalic.ttf"
         self.user_text = ""
