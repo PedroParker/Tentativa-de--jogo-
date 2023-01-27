@@ -7,28 +7,29 @@ def events(settings, interface):
     for event in pygame.event.get():
         pygame.key.set_repeat(300, 100)
         if event.type == pygame.QUIT:
+            print(interface.button2_text)
             pygame.quit()
             sys.exit()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if interface.buttom1_rect.collidepoint(event.pos):
-                interface.buttom1_color = settings.color_active
-                interface.buttom1_active = True
-                settings.user_text = interface.buttom1_text
+            print(event.pos)
+            print(interface.button1_rect.topleft)
+            if interface.button1_rect.collidepoint(event.pos):
+                print("colidiu 1")
+                interface.button1_active = True
+                settings.user_text = interface.button1_text
             else:
-                interface.buttom1_color = settings.color_passive
-                interface.buttom1_active = False
+                interface.button1_active = False
 
-            if interface.buttom2_rect.collidepoint(event.pos):
-                interface.buttom2_color = settings.color_active
-                interface.buttom2_active = True
-                settings.user_text = interface.buttom2_text
+            if interface.button2_rect.collidepoint(event.pos):
+                print("colidiu 2")
+                interface.button2_active = True
+                settings.user_text = interface.button2_text
             else:
-                interface.buttom2_color = settings.color_passive
-                interface.buttom2_active = False
+                interface.button2_active = False
 
         if event.type == pygame.KEYDOWN and (
-            interface.buttom1_active or interface.buttom2_active
+            interface.button1_active or interface.button2_active
         ):
             if event.key == pygame.K_BACKSPACE:
                 settings.user_text = settings.user_text[:-1]
@@ -40,9 +41,12 @@ def events(settings, interface):
                 settings.user_text += event.unicode
 
 
-def drawing(screen, interface):
-    pygame.draw.rect(screen, interface.buttom1_color, interface.buttom1_rect)
-    pygame.draw.rect(screen, interface.buttom2_color, interface.buttom2_rect)
+def drawing(screen, interface, settings):
+    screen.blit(interface.image, (settings.button_x, settings.button_y))
+    screen.blit(
+        interface.image,
+        (settings.button_x, settings.button_y + settings.button_y_space),
+    )
     pygame.draw.rect(
         screen, interface.mensagem_text_color, interface.mensagem_text_rect
     )
@@ -50,7 +54,7 @@ def drawing(screen, interface):
 
 def blit(base_font, settings, screen, interface):
     interface.update_text(settings)
-    interface.blit(base_font, screen)
+    interface.blit(base_font, screen, settings)
 
 
 def welcome():
@@ -62,8 +66,8 @@ def collect_ansewrs(players, interface):
     players_dictionary = {}
     total = 0
     for player in range(players):
-        player_name = interface.buttom1_text
-        player_ansewrs = int(interface.buttom2_text)
+        player_name = interface.button1_text
+        player_ansewrs = int(interface.button2_text)
         players_dictionary[player_name] = player_ansewrs
         total += player_ansewrs
     total = total / players * 0.8
