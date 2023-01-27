@@ -2,9 +2,9 @@ import pygame
 
 
 class Settings:
-    def __init__(self):
-        self.width = 640
-        self.height = 600
+    def __init__(self, screen):
+        self.width = screen.get_rect().width
+        self.height = screen.get_rect().height
         self.backgroud_color = (255, 255, 255)
         self.color_active = pygame.Color("lightskyblue3")
         self.color_passive = pygame.Color("chartreuse4")
@@ -17,3 +17,4 @@ class Settings:
         self.font_color = (0, 0, 0)
         self.font = "Resources/CascadiaCodeItalic.ttf"
         self.user_text = ""
+        self.count = 99
