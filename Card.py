@@ -7,9 +7,11 @@ class Card(pygame.sprite.Sprite):
         super(Card, self).__init__()
 
         self.random_x = random.random()
-        self.card_image = pygame.image.load("Resources/card.png")
-        self.angle = 0
-        self.angle_speed = 2
+        self.card_image = pygame.image.load(
+            random.choice(["Resources/card.png", "Resources/card2.png"])
+        )
+        self.angle = random.random() * 360
+        self.angle_speed = 2 * random.choice([-1, 1])
         self.card_rect = self.card_image.get_rect()
         self.card_rect.bottomleft = (self.random_x * settings.width, 0)
         self.linear_speed = 2
