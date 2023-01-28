@@ -9,7 +9,7 @@ def main():
     card_group = pygame.sprite.Group()
     screen = pygame.display.set_mode((640, 540))
     settings = Settings(screen)
-    interface = Interface(settings)
+    interface = Interface(settings, screen)
     pygame.display.set_caption("Divination Game")
     while True:
         game_f.events(settings, interface, screen)

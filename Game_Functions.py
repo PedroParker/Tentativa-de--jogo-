@@ -12,7 +12,7 @@ def events(settings, interface, screen):
             sys.exit()
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            interface.mouse_action(event, settings)
+            interface.mouse_click(event, settings)
 
         elif event.type == pygame.KEYDOWN and (
             interface.button1_active or interface.button2_active
@@ -20,14 +20,18 @@ def events(settings, interface, screen):
             if event.key == pygame.K_BACKSPACE:
                 settings.user_text = settings.user_text[:-1]
                 interface.reset_blink(settings)
-            elif event.key == pygame.K_TAB:
+            elif event.key == pygame.K_TAB or event.key == pygame.K_RETURN:
                 interface.change_button(settings)
             elif event.key == pygame.K_ESCAPE:
                 interface.turn_off_button(1)
                 interface.turn_off_button(2)
-            elif len(settings.user_text) <= 9 and event.key != pygame.K_RETURN:
-                settings.user_text += event.unicode
-                interface.reset_blink(settings)
+            elif event.key != pygame.K_RETURN:
+                if interface.button1_width_growth and interface.button1_active:
+                    settings.user_text += event.unicode
+                    interface.reset_blink(settings)
+                elif interface.button2_width_growth and interface.button2_active:
+                    settings.user_text += event.unicode
+                    interface.reset_blink(settings)
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
@@ -45,17 +49,12 @@ def drawing(screen, interface, settings, card_group):
         card_group.add(card)
         settings.count = 0
     card_group.update(screen, settings)
-    screen.blit(interface.box_image, (settings.button_x, settings.button_y))
-    screen.blit(
-        interface.box_image,
-        (settings.button_x, settings.button_y + settings.button_y_space),
-    )
     if settings.count_blink % 70 == 0:
         interface.button_cursor_draw = not interface.button_cursor_draw
         settings.count_blink = 0
     if interface.button_cursor_draw:
         interface.button_cursor(screen, settings)
-    interface.submit_button_animation()
+    interface.submit_button_animation(settings)
 
 
 def blit(settings, screen, interface):
