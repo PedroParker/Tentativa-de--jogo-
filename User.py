@@ -1,11 +1,28 @@
-import pygame
+from Network import Network
 
 
-class User(pygame.sprite.Sprite):
+class User:
     def __init__(self):
-        super().__init__()
+        self.network = Network()
+        self.text = ""
+        self.data = ""
 
-        self.points = 10
+    # Methods ------------------------------------------------------------------
 
-        def update_points():
-            self.points -= 1
+    def update_data(self):
+        self.data = self.network.get_data()
+        return self.data
+
+    def send_text(self):
+        self.network.send(self.text)
+
+    # Setters -----------------------------------------------------------------
+
+    def set_text(self, text):
+        self.text = text
+        self.send_text()
+
+    # Getters -----------------------------------------------------------------
+
+    def get_text(self):
+        return self.text
