@@ -8,7 +8,7 @@ class Rect:
         self.settings = settings
         self.active = False
 
-# Methods ---------------------------------------------------------------------
+    # Methods -----------------------------------------------------------------
 
     def draw(self, screen, settings):
         pygame.draw.rect(

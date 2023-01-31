@@ -3,9 +3,11 @@ import sys
 from Card import Card
 
 
-def events(settings, interface):
-    """Keep track on the keyboard events."""
+# Keyboard input holder -------------------------------------------------------
 
+
+def events(settings, interface, user):
+    """Keep track on the keyboard events."""
     for event in pygame.event.get():
         pygame.key.set_repeat(300, 100)
         if event.type == pygame.QUIT:
@@ -32,14 +34,17 @@ def events(settings, interface):
                 elif not interface.get_delete_only():
                     settings.user_text += event.unicode
 
+                interface.update_network_text(user, settings)
+
             elif event.key == pygame.K_q:
                 pygame.quit()
                 sys.exit()
 
+# Screen effects --------------------------------------------------------------
+
 
 def drawing(screen, settings, card_group):
     """Drawing cards effects in the background."""
-
     settings.count += 1
     if settings.count % 100 == 0:
         card = Card(settings)
@@ -48,13 +53,13 @@ def drawing(screen, settings, card_group):
     card_group.update(screen, settings)
 
 
-def blit(settings, screen, interface):
+def update(settings, screen, interface, user):
     """Sync interface elements at screen."""
+    interface.update_interface(screen, settings, user)
 
-    interface.update_interface(screen, settings)
+# Game logic ------------------------------------------------------------------
 
 
 def collect_ansewrs():
     """Nothing yet."""
-
     pass

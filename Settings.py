@@ -11,11 +11,13 @@ class Settings:
 
         # Avalible colors -----------------------------------------------------
 
-        self.color_active = pygame.Color("lightskyblue3")
-        self.color_passive = pygame.Color("chartreuse4")
-        self.color_white = (255, 255, 255)
-        self.color_black = (0, 0, 0)
-        self.color_red = (200, 40, 40)
+        self.colors = {
+            "active": pygame.Color("lightskyblue3"),
+            "passive": pygame.Color("chartreuse4"),
+            "white": (255, 255, 255),
+            "black": (0, 0, 0),
+            "red": (200, 40, 40)
+        }
 
         # Buttons general properties ------------------------------------------
 
@@ -28,7 +30,7 @@ class Settings:
         # Pygame general resorces ---------------------------------------------
 
         self.clock = pygame.time.Clock()
-        self.font_color = self.color_black
+        self.font_color = self.get_color("black")
         self.font = "Resources/CascadiaCodeItalic.ttf"
         self.base_font = pygame.font.Font(self.font, 25)
         self.button_sound = pygame.mixer.Sound("Resources/sfx_sounds_button6.wav")
@@ -44,3 +46,14 @@ class Settings:
 
         self.user_text = ""
         self.count = 99
+        self.run = True
+
+        # Getters -------------------------------------------------------------
+
+    def get_run(self):
+        return self.run
+
+    def get_color(self, color):
+        for element in self.colors.keys():
+            if element == color:
+                return self.colors[element]

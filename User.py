@@ -1,25 +1,28 @@
+from Network import Network
+
+
 class User:
-    def __init__(self, network):
-        self.id = network.id
-        self.points = 10
-        self.user_text = ["", ""]
-        self.users = ","
+    def __init__(self):
+        self.network = Network()
+        self.text = ""
+        self.data = ""
 
-    def update_points(self):
-        self.points -= 1
+    # Methods ------------------------------------------------------------------
 
-    def update_text(self, text, network, interface):
+    def update_data(self):
+        self.data = self.network.get_data()
+        return self.data
+
+    def send_text(self):
+        self.network.send(self.text)
+
+    # Setters -----------------------------------------------------------------
+
+    def set_text(self, text):
         self.text = text
-        self.send_text(text, network, interface)
+        self.send_text()
 
-    def transform_list(self, text):
-        t1 = text[0]
-        t2 = text[1]
-        return t1 + "," + t2
+    # Getters -----------------------------------------------------------------
 
-    def convert_list(self):
-        return self.users
-
-    def send_text(self, text, network, interface):
-        self.users = network.send(self.transform_list(text))
-        # self.convert_list(interface)
+    def get_text(self):
+        return self.text

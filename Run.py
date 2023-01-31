@@ -2,7 +2,6 @@ import pygame
 from Settings import Settings
 import Game_Functions as game_f
 from Interface import Interface
-from Network import Network
 from User import User
 
 
@@ -20,20 +19,19 @@ def main():
     card_group = pygame.sprite.Group()
     settings = Settings(screen)
     interface = Interface(settings)
-    # network = Network()
-    # user = User(network)
+    user = User()
 
     # Game stuff --------------------------------------------------------------
 
-    while True:
+    while settings.get_run():
 
-        screen.fill(settings.color_white)
+        screen.fill(settings.get_color("white"))
 
         # Game logic ----------------------------------------------------------
 
-        game_f.events(settings, interface)  # Keyboard events
+        game_f.events(settings, interface, user)  # Keyboard events
         game_f.drawing(screen, settings, card_group)  # background animation
-        game_f.blit(settings, screen, interface)  # Sync elements with window
+        game_f.update(settings, screen, interface, user)  # Sync elements with window
 
         # Final compliment ----------------------------------------------------
 

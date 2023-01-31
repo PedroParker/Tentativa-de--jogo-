@@ -9,8 +9,10 @@ class Server:
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen = 2
         self.connected = 0
-        self.users_text = [","]
+        self.connections = []
         self.server_program()
+
+    # Initializer -------------------------------------------------------------
 
     def server_program(self):
         self.server.bind((self.host, self.port))
@@ -24,29 +26,45 @@ class Server:
                 print("Quebrando servidor")
                 break
 
+    # Client holder -----------------------------------------------------------
+
     def thread_client(self, conn):
-        player = self.make_connection(conn)
+        self.make_connection(conn)
+
         while True:
             try:
-                data = conn.recv(2048).decode()
+                data = conn.recv(1024).decode("utf-8")
+                print(data)
+                self.broadcast(conn, data)
                 if not data:
                     break
-                self.users_text[player - 1] = data
-                conn.sendall(str.encode(self.users_text[1]))
             except socket.error:
                 break
-        print("Fechando conexão")
+
         self.close_connection(conn)
 
+    # Connection administrating -----------------------------------------------
+
     def close_connection(self, conn):
+        print("Fechando conexão")
         self.connected -= 1
         conn.close()
 
     def make_connection(self, conn):
         self.connected += 1
-        conn.send(str.encode(f"{self.connected}"))
-        self.users_text.append(",")
+        self.connections.append(conn)
         return self.connected
+
+    # Sync information --------------------------------------------------------
+
+    def broadcast(self, conn, data):
+        for client in self.connections:
+            if client != conn:
+                try:
+                    client.send(data.encode("utf-8"))
+                except socket.error:
+                    self.close_connection(client)
+                    self.connections.remove(client)
 
 
 server = Server()

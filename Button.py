@@ -12,7 +12,7 @@ class Button(Rect):
 
     # Methods -----------------------------------------------------------------
 
-    def draw_button(self, screen, settings):
+    def draw(self, screen, settings):
         pygame.draw.rect(
             screen,
             self.get_color(),

@@ -7,7 +7,7 @@ class ClickButton(Button):
     def __init__(self, rect, color, settings, text):
         super().__init__(rect, color, settings)
         self.text = text
-        self.text_color = settings.color_white
+        self.text_color = settings.get_color("white")
         self.text_surface = settings.base_font.render(self.text, True, self.text_color)
         self.cycle = True
 
@@ -21,7 +21,7 @@ class ClickButton(Button):
 
     def set_active(self, settings):
         super().set_active(settings)
-        self.color = self.settings.color_active
+        self.color = self.settings.get_color("active")
         self.cycle = True
 
     def set_active_by_mouse(self, settings):
@@ -33,5 +33,5 @@ class ClickButton(Button):
 
     def set_unactive(self):
         super().set_unactive()
-        self.color = self.settings.color_passive
+        self.color = self.settings.get_color("passive")
 

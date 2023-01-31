@@ -19,7 +19,7 @@ class TextButton(Button):
             self.rect.y + 5,
             2,
             self.rect.height - 10,
-        ), settings.color_black, settings)
+        ), settings.get_color("black"), settings)
 
 # Methods ---------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ class TextButton(Button):
         type(self).count += 1
         return type(self).count
 
-    def draw_button(self, screen, settings):
+    def draw(self, screen, settings):
         pygame.draw.rect(
             screen,
             self.color,
@@ -47,7 +47,7 @@ class TextButton(Button):
         if not self.get_active() and len(self.get_text()) == 0:
             return self.input_list[self.id - 1], (183, 183, 183)
         else:
-            return self.text, self.settings.color_black
+            return self.text, self.settings.get_color("black")
 
     # Setters -----------------------------------------------------------------
 
@@ -58,11 +58,11 @@ class TextButton(Button):
 
         elif self.get_text_surface().get_width() + 19 < self.settings.width - 60:
             self.rect.width = self.get_text_surface().get_width() + 40
-            self.color = self.settings.color_black
+            self.color = self.settings.get_color("black")
             return False
 
         else:
-            self.color = self.settings.color_red
+            self.color = self.settings.get_color("red")
             return True
 
     def set_text(self, settings):

@@ -1,40 +1,66 @@
 from ClickButton import ClickButton
 from Text import Text
 from TextButton import TextButton
+from VisualizeButton import VisualizeButton
 
 
 class Interface:
     def __init__(self, settings):
         self.buttons = [
-            ClickButton((
-                settings.button_x + settings.button_width - 125,
-                settings.button_y + settings.button_y_space * 2 + 10, 125,
-                40), settings.color_passive, settings, "Submit"),
-            TextButton((
+            ClickButton(
+                (
+                    settings.button_x + settings.button_width - 125,
+                    settings.button_y + settings.button_y_space * 2 + 10,
+                    125,
+                    40,
+                ),
+                settings.get_color("passive"),
+                settings,
+                "Submit",
+            ),
+            TextButton(
+                (
+                    settings.button_x,
+                    settings.button_y,
+                    settings.button_width,
+                    settings.button_height,
+                ),
+                settings.get_color("black"),
+                settings,
+            ),
+            TextButton(
+                (
+                    settings.button_x,
+                    settings.button_y + settings.button_y_space,
+                    settings.button_width,
+                    settings.button_height,
+                ),
+                settings.get_color("black"),
+                settings,
+            ),
+        ]
+        self.visualize_button = VisualizeButton(
+            (
                 settings.button_x,
-                settings.button_y,
+                settings.button_y + 4 * settings.button_y_space,
                 settings.button_width,
                 settings.button_height,
-            ), settings.color_black, settings),
-            TextButton((
-                settings.button_x,
-                settings.button_y + settings.button_y_space,
-                settings.button_width,
-                settings.button_height,
-            ), settings.color_black, settings)]
+            ),
+            settings.get_color("black"),
+            settings,
+        )
 
-        self.text = Text("Press \"q\" to quit", (50, 45), settings)
+        self.text = Text('Press "q" to quit', (50, 45), settings)
 
-# Methods ---------------------------------------------------------------------
+    # Methods ---------------------------------------------------------------------
 
-    def update_interface(self, screen, settings):
+    def update_interface(self, screen, settings, user):
         for button in self.buttons:
-            button.draw_button(screen, settings)
-
+            button.draw(screen, settings)
             if isinstance(button, ClickButton):
                 button.set_active_by_mouse(settings)
 
-        self.text.draw(screen)
+        self.update_visualize_buttons(screen, user, settings)
 
     def mouse_click(self, event, settings):
         for button in self.buttons:
@@ -47,6 +73,15 @@ class Interface:
         for button in self.buttons:
             if button.get_active():
                 button.click(settings)
+
+    def update_visualize_buttons(self, screen, user, settings):
+        self.text.draw(screen)
+        self.visualize_button.set_text(user)
+        self.visualize_button.draw(screen, settings)
+
+    def update_network_text(self, user, settings):
+        if self.buttons[1].get_active():
+            user.set_text(settings.user_text)
 
     # Setters -----------------------------------------------------------------
 

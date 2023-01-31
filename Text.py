@@ -2,7 +2,7 @@ class Text:
     def __init__(self, text, pos, settings):
         self.pos = pos
         self.text = text
-        self.text_surface = settings.base_font.render(self.text, True, settings.color_black)
+        self.text_surface = settings.base_font.render(self.text, True, settings.get_color("black"))
 
 # Methods ---------------------------------------------------------------------
 
