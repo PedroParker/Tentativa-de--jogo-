@@ -9,7 +9,7 @@ class Network:
         self.port = 5000
         self.address = (self.host, self.port)
         self.connect()
-        self.data = ""
+        self.data = ","
 
     # Initializer ------------------------------------------------------------------
 

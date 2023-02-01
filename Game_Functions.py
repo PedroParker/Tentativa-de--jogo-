@@ -34,11 +34,10 @@ def events(settings, interface, user):
                 elif not interface.get_delete_only():
                     settings.user_text += event.unicode
 
-                interface.update_network_text(user, settings)
-
             elif event.key == pygame.K_q:
                 pygame.quit()
                 sys.exit()
+
 
 # Screen effects --------------------------------------------------------------
 
@@ -56,6 +55,7 @@ def drawing(screen, settings, card_group):
 def update(settings, screen, interface, user):
     """Sync interface elements at screen."""
     interface.update_interface(screen, settings, user)
+
 
 # Game logic ------------------------------------------------------------------
 
