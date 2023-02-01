@@ -39,17 +39,28 @@ class Interface:
                 settings,
             ),
         ]
-        self.visualize_button = VisualizeButton(
-            (
-                settings.button_x,
-                settings.button_y + 4 * settings.button_y_space,
-                settings.button_width,
-                settings.button_height,
+        self.visualize_buttons = [
+            VisualizeButton(
+                (
+                    settings.button_x,
+                    settings.button_y + 4 * settings.button_y_space,
+                    settings.button_width,
+                    settings.button_height,
+                ),
+                settings.get_color("black"),
+                settings,
             ),
-            settings.get_color("black"),
-            settings,
-        )
-
+            VisualizeButton(
+                (
+                    settings.button_x,
+                    settings.button_y + 5 * settings.button_y_space,
+                    settings.button_width,
+                    settings.button_height,
+                ),
+                settings.get_color("black"),
+                settings,
+            ),
+        ]
         self.text = Text('Press "q" to quit', (50, 45), settings)
 
     # Methods ---------------------------------------------------------------------
@@ -59,7 +70,10 @@ class Interface:
             button.draw(screen, settings)
             if isinstance(button, ClickButton):
                 button.set_active_by_mouse(settings)
+            elif button.get_active():
+                user.set_text(button.get_text(), button.get_id())
 
+        self.text.draw(screen)
         self.update_visualize_buttons(screen, user, settings)
 
     def mouse_click(self, event, settings):
@@ -75,13 +89,9 @@ class Interface:
                 button.click(settings)
 
     def update_visualize_buttons(self, screen, user, settings):
-        self.text.draw(screen)
-        self.visualize_button.set_text(user)
-        self.visualize_button.draw(screen, settings)
-
-    def update_network_text(self, user, settings):
-        if self.buttons[1].get_active():
-            user.set_text(settings.user_text)
+        for visualize_button in self.visualize_buttons:
+            visualize_button.set_text(user)
+            visualize_button.draw(screen, settings)
 
     # Setters -----------------------------------------------------------------
 

@@ -3,27 +3,30 @@ import pygame
 
 
 class VisualizeButton(Button):
+    id = 0
+
     def __init__(self, rect, color, settings):
         super().__init__(rect, color, settings)
         self.text = ""
+        self.id = 0
+        self.add_instance()
 
     # Methods -----------------------------------------------------------------
 
+    def add_instance(self):
+        type(self).id += 1
+        self.id = type(self).id
+
     def draw(self, screen, settings):
-        pygame.draw.rect(
-            screen,
-            self.color,
-            self.rect,
-            border_radius=10,
-            width=3
-        )
+        pygame.draw.rect(screen, self.color, self.rect, border_radius=10, width=3)
 
         screen.blit(self.get_text_surface(), (self.rect.x + 5, self.rect.y + 5))
 
     # Setters -----------------------------------------------------------------
 
     def set_text(self, user):
-        self.text = user.update_data()
+        print(self.id)
+        self.text = user.update_data()[self.id - 1]
         self.set_text_surface()
         self.set_width()
 

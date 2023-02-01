@@ -14,27 +14,25 @@ class TextButton(Button):
         self.input_list = ["Username", "Guess"]
         self.empty_text = self.input_list[self.id - 1]
 
-        self.text_rect = Rect((
-            self.rect.x,
-            self.rect.y + 5,
-            2,
-            self.rect.height - 10,
-        ), settings.get_color("black"), settings)
+        self.text_rect = Rect(
+            (
+                self.rect.x,
+                self.rect.y + 5,
+                2,
+                self.rect.height - 10,
+            ),
+            settings.get_color("black"),
+            settings,
+        )
 
-# Methods ---------------------------------------------------------------------
+    # Methods ---------------------------------------------------------------------
 
     def add_instance(self):
         type(self).count += 1
         return type(self).count
 
     def draw(self, screen, settings):
-        pygame.draw.rect(
-            screen,
-            self.color,
-            self.rect,
-            border_radius=10,
-            width=3
-        )
+        pygame.draw.rect(screen, self.color, self.rect, border_radius=10, width=3)
 
         self.set_text(settings)
         screen.blit(self.get_text_surface(), (self.rect.x + 5, self.rect.y + 5))
@@ -88,11 +86,12 @@ class TextButton(Button):
 
     def set_text_surface(self):
         text, color = self.verify_emtpy()
-        self.text_surface = self.settings.base_font.render(
-            text, True, color
-        )
+        self.text_surface = self.settings.base_font.render(text, True, color)
 
     # Getters -----------------------------------------------------------------
 
     def get_delete_only(self):
         return self.delete_only
+
+    def get_id(self):
+        return self.id

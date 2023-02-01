@@ -10,6 +10,7 @@ class Server:
         self.listen = 2
         self.connected = 0
         self.connections = []
+        self.run = True
         self.server_program()
 
     # Initializer -------------------------------------------------------------
@@ -17,11 +18,17 @@ class Server:
     def server_program(self):
         self.server.bind((self.host, self.port))
         self.server.listen(self.listen)
-        while True:
+        while self.run:
             try:
-                conn, address = self.server.accept()
-                print("Connection from: " + str(address))
-                start_new_thread(self.thread_client, (conn,))
+                if self.connected < 2:
+                    conn, address = self.server.accept()
+                    print("Connection from: " + str(address))
+                    start_new_thread(self.thread_client, (conn,))
+                    self.connected += 1
+                else:
+                    answer = input("Deseja continuar (s/n): ")
+                    if answer == "n":
+                        break
             except KeyboardInterrupt:
                 print("Quebrando servidor")
                 break
@@ -34,7 +41,6 @@ class Server:
         while True:
             try:
                 data = conn.recv(1024).decode("utf-8")
-                print(data)
                 self.broadcast(conn, data)
                 if not data:
                     break
@@ -49,11 +55,10 @@ class Server:
         print("Fechando conexão")
         self.connected -= 1
         conn.close()
+        self.connections.remove(conn)
 
     def make_connection(self, conn):
-        self.connected += 1
         self.connections.append(conn)
-        return self.connected
 
     # Sync information --------------------------------------------------------
 
@@ -64,7 +69,6 @@ class Server:
                     client.send(data.encode("utf-8"))
                 except socket.error:
                     self.close_connection(client)
-                    self.connections.remove(client)
 
 
 server = Server()
