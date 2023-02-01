@@ -4,7 +4,7 @@ import pygame
 
 
 class TextButton(Button):
-    count = 0
+    id = 0
 
     def __init__(self, rect, color, settings):
         super().__init__(rect, color, settings)
@@ -28,8 +28,8 @@ class TextButton(Button):
     # Methods ---------------------------------------------------------------------
 
     def add_instance(self):
-        type(self).count += 1
-        return type(self).count
+        type(self).id += 1
+        return type(self).id
 
     def draw(self, screen, settings):
         pygame.draw.rect(screen, self.color, self.rect, border_radius=10, width=3)

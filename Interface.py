@@ -38,8 +38,6 @@ class Interface:
                 settings.get_color("black"),
                 settings,
             ),
-        ]
-        self.visualize_buttons = [
             VisualizeButton(
                 (
                     settings.button_x,
@@ -67,14 +65,16 @@ class Interface:
 
     def update_interface(self, screen, settings, user):
         for button in self.buttons:
-            button.draw(screen, settings)
             if isinstance(button, ClickButton):
                 button.set_active_by_mouse(settings)
+            elif isinstance(button, VisualizeButton):
+                button.set_text(user)
             elif button.get_active():
                 user.set_text(button.get_text(), button.get_id())
+            button.draw(screen, settings)
 
         self.text.draw(screen)
-        self.update_visualize_buttons(screen, user, settings)
+        # self.update_visualize_buttons(screen, user, settings)
 
     def mouse_click(self, event, settings):
         for button in self.buttons:
@@ -88,18 +88,13 @@ class Interface:
             if button.get_active():
                 button.click(settings)
 
-    def update_visualize_buttons(self, screen, user, settings):
-        for visualize_button in self.visualize_buttons:
-            visualize_button.set_text(user)
-            visualize_button.draw(screen, settings)
-
     # Setters -----------------------------------------------------------------
 
     def set_next_button_active(self, settings):
-        for idx, button in enumerate(self.buttons):
+        for idx, button in enumerate(self.buttons[:3]):
             if button.get_active():
                 button.set_unactive()
-                self.buttons[(idx + 1) % len(self.buttons)].set_active(settings)
+                self.buttons[(idx + 1) % len(self.buttons[:3])].set_active(settings)
                 return
         self.buttons[1].set_active(settings)
 

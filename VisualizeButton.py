@@ -25,7 +25,6 @@ class VisualizeButton(Button):
     # Setters -----------------------------------------------------------------
 
     def set_text(self, user):
-        print(self.id)
         self.text = user.update_data()[self.id - 1]
         self.set_text_surface()
         self.set_width()
