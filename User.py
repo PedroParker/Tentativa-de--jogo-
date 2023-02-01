@@ -11,7 +11,6 @@ class User:
 
     def update_data(self):
         self.data = self.network.get_data().split(",")
-        print(self.data)
         return self.data
 
     def send_text(self):
